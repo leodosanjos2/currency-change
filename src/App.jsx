@@ -1,4 +1,3 @@
-  /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import './App.css'
 import useCurrencyInfo from './hooks/useCurrencyHooks';
@@ -13,25 +12,23 @@ function App() {
   const currencyInfo = useCurrencyInfo(from);
   const options = Object.keys(currencyInfo);
 
-  const convert = ()=>{
-    setConvertedAmount(amount * currencyInfo[to]);
-  }
-
   useEffect(() => {
-  if (currencyInfo && currencyInfo[to]) {
-  setConvertedAmount(amount * currencyInfo[to]);
-  }
-  },[amount, from, to, currencyInfo]);
-  const swap = ()=>{
-    setFrom(to);
-    setTo(from);
-  }
+    if (amount>0){
+      if (currencyInfo && currencyInfo[to]) {
+        setConvertedAmount(amount * currencyInfo[to]);
+      }
+    }else{
+      setConvertedAmount(0);
+    }
+    },[amount, from, to, currencyInfo]);
 
-  const handleSubmit = (e)=>{
-    e.preventDefault();
-  }
+    const swap = ()=>{
+      setFrom(to);
+      setTo(from);
+      
+    }
 
-  return (
+    return (
     <div className='w-full h-screen flex flex-wrap
     justify-center items-center bg-cover bg-no-repeat'
     style={{backgroundImage: 
@@ -40,10 +37,12 @@ function App() {
         <div className='w-full max-w-md mx-auto border 
         border-gray-60 rounded-lg p-5 backdrop-blur-sm
         bg-white/30'>
-          <form onSubmit={handleSubmit}>
-            <label className='bg-blue-600 text-white px-4 py-3
-            rounded-lg -translate-x-1/2 -translate-y-1/2'>
-              Convert {from} to {to}</label>
+          <form onSubmit={(e)=>e.preventDefault()}>
+            <div className="flex justify-center mb-4">
+            <label className='bg-blue-600 text-white px-4 py-3 rounded-lg text-center w-full max-w-md'>
+            Convert {from.toUpperCase()} to {to.toUpperCase()}
+            </label>
+            </div>
             <div className='w-full mb-1'>
               <InputBox
               label="from"
